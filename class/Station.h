@@ -19,7 +19,8 @@ class Station
 	public :
 		Station(std::string&);
 	
-		std::string name();
+		std::string name() const;
+		std::map<std::string, Rail*> rails() const;
 		
 		void addOut(std::string, Rail*);
 };
@@ -33,6 +34,8 @@ class StationMap
 		unsigned int size();
 		std::map<std::string, Station*>::iterator end();
 		std::map<std::string, Station*>::iterator begin();
+		
+		std::map<std::string, Station*> list() const;
 		
 		bool contains(std::string);
 		

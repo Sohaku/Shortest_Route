@@ -13,7 +13,8 @@ void showRail(Rail *&r, int i)
 		<< " - "      << &r
 		<< ") "       << r->depart()->name()
 		<< " -> "     << r->arrival()->name()
-		<< "\t= "     << r->duration()
+		<< " ["       << r->train()
+		<< "]\t= "    << r->duration()
 		<< "min for " << r->price()
 		<< " start "  << r->start()->h()
 		<< ':'        << r->start()->min()
@@ -38,7 +39,7 @@ Railway::Railway(std::ifstream &f, std::ifstream &g)
 	std::string data = "";
 	
 	// input price and time
-	int price = 0, time = 0;
+	int price = 0, time = 0, train = 0;
 	
 	// Depart and arrival time
 	Time depart, arrival;
@@ -66,11 +67,14 @@ Railway::Railway(std::ifstream &f, std::ifstream &g)
 			f >> data; // Skip ":"
 			f >> price;
 			
+			++train;
+			
 			i = 0;
 			while (i < rails.size()) {
 				_rails.push_back(rails[i]);
 				
 				_rails.back()->setPrice(price);
+				_rails.back()->setTrain(train);
 				
 				++i;
 			}

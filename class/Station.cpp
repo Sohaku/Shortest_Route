@@ -9,9 +9,14 @@ Station::Station(std::string &name)
 	_name = name;
 }
 
-std::string Station::name()
+std::string Station::name() const
 {
 	return _name;
+}
+
+std::map<std::string, Rail*> Station::rails() const
+{
+	return _out;
 }
 
 void Station::addOut(std::string name, Rail *r)
@@ -37,6 +42,11 @@ Station* StationMap::add(std::string &name)
 	}
 	
 	return res;
+}
+
+std::map<std::string, Station*> StationMap::list() const
+{
+	return _list;
 }
 
 Station* StationMap::get(std::string &name)

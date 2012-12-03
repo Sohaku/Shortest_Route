@@ -17,7 +17,7 @@ class Rail
 		
 		Time _start;
 		
-		int   _duration;
+		int   _duration, _train;
 		float _price;
 		
 	public :
@@ -27,6 +27,7 @@ class Rail
 		
 		// Getters
 		int      duration() const;
+		int      train()    const;
 		float    price()    const;
 		Station* depart()   const;
 		Station* arrival()  const;
@@ -37,10 +38,14 @@ class Rail
 		
 		// Setters
 		void setPrice(int);
+		void setTrain(int);
 		void setDepart(Station*);
 		void setArrival(Station*);
 		void setTrip(Station*, Station*);
 		void setTime(Time);
+		
+		// Methods
+		bool isTrip();
 };
 
 #endif
