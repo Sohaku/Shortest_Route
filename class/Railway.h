@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <set>
 
 #include "Time.h"
 #include "Station.h"
@@ -22,7 +23,7 @@ class Railway
 		
 	public :
 		Railway(std::ifstream&, std::ifstream&);
-		
+		void Pluscourt_cout(Station* depart, Station* arrive, std::set<Rail*> interdit);
 		Station* get(const std::string&);
 };
 

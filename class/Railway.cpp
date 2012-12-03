@@ -181,6 +181,67 @@ Railway::Railway(std::ifstream &f, std::ifstream &g)
 
 // - Methods
 
+
+void Railway::Pluscourt_cout(Station* depart, Station* arrive, std::set<Rail*> interdit)
+{
+	std::map<std::string, Station*> temp = _stations.list();
+	std::map<std::string, Station*>::iterator it;
+	std::set<std::string> a_traite;
+	std::map<std::string, Rail*> listerails;
+	std::map<std::string, Vertex*> dijkstra;
+	for(it= temp.begin(); it!= temp.end(); it++){
+		dijkstra.insert ( pair<std::string, Vertex*>( (*it).first , new Vertex() ) );
+		a_traite.insert( (*it).first );
+	}
+	// début algo
+	double min_choix;
+	std::string gare_traitee;
+	bool fini = false;
+	Station* en_cours;
+	listerails.clear();
+	while(!fini){
+		min_choix = DBL_MAX;
+		for(iter = dijkstra.begin(); iter!= dijkstra.end(); iter++){
+			if(((*iter).second->cost() < min_choix) && (a_traite.find((*iter).first) != a_traite.end() )){
+				min_choix = (*iter).second->cost();
+				gare_traitee = (*iter).first;
+			}
+		}
+		en_cours = this.get(gare_traitee);
+		if(gare_traitee == arrive->name()){
+			fini = true;
+		}else{
+			a_traite.erase(gare_traitee);
+			//en_cours = this.get(gare_traitee);
+			listerails = en_cours->rails();
+			for(iter2 = listerails.begin() ; iter2 != listerails.end(); iter2++){
+				if( (interdit.find((*iter2).second) == interdit.end())  && ( (*iter2).second->price() + dijkstra[gare_traitee]->cost() <  dijkstra[(*iter2).second->arrival()->name()]->cost() ) ){
+					dijkstra[(*iter2).second->arrival()->name()]->set( (*iter2).second->price() + dijkstra[gare_traitee]->cost() , (*iter2).second );
+				}
+			}
+		}
+	}
+	
+	Chemin* solution_trouve = new Chemin();
+	
+	while(en_cours != depart){
+		solution_trouve->add(dijkstra[en_cours->name()]);
+		en_cours = dijkstra[en_cours->name()]->prec()->depart();
+	}
+	int i = 0;
+	while(i < 5){
+		if(solution_trouve->cost() < meilleur[i]->cost() ){
+			for(int j = i+1; j < 5 ; j++){
+				meilleur[j]= meilleur[j-1]; 
+			}
+			meilleur[i] = solution_trouve;
+			i = 5;
+		}else{
+			i++;
+		}
+	}
+}
+
 Station* Railway::get(const std::string &name)
 {
 	return _stations.find(name);
