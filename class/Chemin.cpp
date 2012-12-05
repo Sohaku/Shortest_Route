@@ -10,8 +10,8 @@ std::vector<Rail*> Chemin::rails() const
 	return _rails;
 }
 
-void Chemin::add(Vertex& node)
+void Chemin::add(Vertex* node)
 {
-	_rails.push_back(node.prec());
-	_cost += node.cost();
+	_rails.push_back(node->prec());
+	_cost += node->cost();
 }

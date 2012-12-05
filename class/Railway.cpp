@@ -169,7 +169,7 @@ Railway::Railway(std::ifstream &f, std::ifstream &g)
 			
 		}
 	}
-
+	_chemins = new Chemin*[5];
 	i = 0;	
 	std::cout << "Rails : " << std::endl;
 	while (i < _rails.size()) {
@@ -188,9 +188,11 @@ void Railway::Pluscourt_cout(Station* depart, Station* arrive, std::set<Rail*> i
 	std::map<std::string, Station*>::iterator it;
 	std::set<std::string> a_traite;
 	std::map<std::string, Rail*> listerails;
+	std::map<std::string, Rail*>::iterator iter2;
 	std::map<std::string, Vertex*> dijkstra;
+	std::map<std::string, Vertex*>::iterator iter;
 	for(it= temp.begin(); it!= temp.end(); it++){
-		dijkstra.insert ( pair<std::string, Vertex*>( (*it).first , new Vertex() ) );
+		dijkstra.insert ( std::pair<std::string, Vertex*>( (*it).first , new Vertex() ) );
 		a_traite.insert( (*it).first );
 	}
 	// début algo
@@ -207,7 +209,7 @@ void Railway::Pluscourt_cout(Station* depart, Station* arrive, std::set<Rail*> i
 				gare_traitee = (*iter).first;
 			}
 		}
-		en_cours = this.get(gare_traitee);
+		en_cours = get(gare_traitee);
 		if(gare_traitee == arrive->name()){
 			fini = true;
 		}else{
@@ -230,11 +232,11 @@ void Railway::Pluscourt_cout(Station* depart, Station* arrive, std::set<Rail*> i
 	}
 	int i = 0;
 	while(i < 5){
-		if(solution_trouve->cost() < meilleur[i]->cost() ){
+		if(solution_trouve->cost() < _chemins[i]->cost() ){
 			for(int j = i+1; j < 5 ; j++){
-				meilleur[j]= meilleur[j-1]; 
+				_chemins[j]= _chemins[j-1]; 
 			}
-			meilleur[i] = solution_trouve;
+			_chemins[i] = solution_trouve;
 			i = 5;
 		}else{
 			i++;

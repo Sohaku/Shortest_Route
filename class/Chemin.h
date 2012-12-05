@@ -17,7 +17,7 @@ class Chemin
 		std::vector<Rail*> rails() const;
 		double             cost()  const;
 		
-		void add(Vertex&);
+		void add(Vertex*);
 };
 
 #endif
